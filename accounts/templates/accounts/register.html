@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+{%  block title %}
+    Register Page
+{% endblock %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'accounts/styleregister.css' %}">
+{% endblock %}
+{% block body %}
+    <h1>Welcome to Register Page</h1>
+    <form action="" method="post" novalidate>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Register</button>
+    </form>
+{% endblock %}

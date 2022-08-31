@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block title %}
+    Login Page
+{% endblock %}
+{% block body %}
+    <h1>welcome to Profile Page</h1>
+
+    <table>
+        <tr>
+            <th>username : {{ profile.user.username }}</th>
+        </tr>
+        <tr>
+            <th>fname : {{ profile.user.first_name }}</th>
+        </tr>
+        <tr>
+            <th>lname : {{ profile.user.last_name }}</th>
+        </tr>
+        <tr>
+            <th>Emil : {{ profile.user.email }}</th>
+        </tr>
+         <tr>
+            <th>phone : {{ profile.phone }}</th>
+        </tr>
+     <tr>
+            <th>address : {{ profile.address }}</th>
+        </tr>
+
+    </table>
+     <a href="{% url 'accounts:user_update' %}">Update</a>
+    <a href="{% url 'accounts:change' %}">Change</a>
+{% endblock %}

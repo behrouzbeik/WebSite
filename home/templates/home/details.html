@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% block title %}
+    {{ product.name }}
+{% endblock %}
+{% block body %}
+    <div class="container">
+        <h2>{{ product.name }}</h2>
+        <img src="{{ product.image.url }}" style="width: 200px" alt="{{ product.name }}" title="{{ product.name }}">
+        <p>{{ product.information }}</p>
+        <small>like : {{ product.total_like }}</small>
+        <a href="{% url 'home:product_like' product.id %}"
+           class="btn btn-info {% if is_unlike %} disabled {% endif %}">Like</a>
+
+        <small>like : {{ product.total_unlike }}</small>
+        <a href="{% url 'home:product_unlike' product.id %}"
+           class="btn btn-primary {% if is_like %} disabled {% endif %}">DisLike</a>
+
+
+        <hr>
+        {% if product.status == 'Size' %}
+            <form action="" method="post">
+                {% csrf_token %}
+                {% for data in variant %}
+                    <input type="radio" value="{{ data.id }}" {% if variants.id == data.id %} checked {% endif %}
+                           name="select"
+                           onchange="this.form.submit()">
+                    <a href="" style="text-decoration: none">{{ data.size_variant }}</a>
+                {% endfor %}
+            </form>
+        {% elif product.status == 'Color' %}
+            <form action="" method="post">
+                {% csrf_token %}
+                {% for data in variant %}
+                    <input type="radio" value="{{ data.id }}" {% if variants.id == data.id %} checked {% endif %}
+                           name="select"
+                           onchange="this.form.submit()">
+                    <a href="" style="text-decoration: none">{{ data.color_variant }}</a>
+                {% endfor %}
+            </form>
+
+        {% endif %}
+        <hr>
+        {% for tag in similar %}
+            <a href="{% url 'home:detail' tag.id %}">
+                <img src="{{ tag.image.url }}" style="width: 200px;">
+            </a>
+        {% endfor %}
+
+        <form method="post" action="{% url 'home:product_comment' product.id %}">
+            {% csrf_token %}
+            {{ comment_form.as_p }}
+            <button type="submit">Send Comment</button>
+        </form>
+        {% for com in comment %}
+            <p>comment : {{ com.comment }}</p>
+            <a href="{% url 'home:comment_like' com.id %}">Like Comment</a>
+            <small>rate : {{ com.rate }}</small>
+
+            <form action="{% url 'home:product_reply' product.id com.id %}" method="post">
+                {% csrf_token %}
+                <textarea name="comment" placeholder="reply..." rows="4"></textarea>
+                <button type="submit">Send Reply</button>
+            </form>
+            {% for data in com.comment_reply.all %}
+                <p>{{ data.comment }}</p>
+            {% endfor %}
+        {% endfor %}
+
+
+    </div>
+
+
+
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %}
+    Product Page
+{% endblock %}
+{% block body %}
+
+    {% for data in category %}
+        <a href="{{ data.get_absoloute_url }}">{{ data.name }}</a>
+        <div class="btn-group">
+
+            <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+            </button>
+            <ul class="dropdown-menu">
+                {% for info in data.sub.all %}
+                    <li>
+                        <a class="dropdown-item" href="{{ info.get_absoloute_url }}">{{ info.name }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endfor %}
+
+    {% for product in products %}
+        <a href="{% url 'home:detail' product.id %}">
+            <h3>{{ product.name }}</h3>
+            <img src="{{ product.image.url }}" style="width: 200px" alt="{{ product.name }}" title="{{ product.name }}">
+        </a>
+        {% if product.discount %}
+            <h4 style="text-decoration: line-through">{{ product.unit_price }}</h4>
+            <h3>{{ product.total_price }}</h3>
+        {% else %}
+            <h3>{{ product.total_price }}</h3>
+        {% endif %}
+    {% endfor %}
+{% endblock %}
