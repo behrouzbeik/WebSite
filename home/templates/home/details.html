@@ -7,6 +7,11 @@
         <h2>{{ product.name }}</h2>
         <img src="{{ product.image.url }}" style="width: 200px" alt="{{ product.name }}" title="{{ product.name }}">
         <p>{{ product.information }}</p>
+
+        {% for img in images %}
+            <img src="{{ img.image.url }}" style="width:100px" alt="{{ img.name }}" title="{{img.name}}">
+        {% endfor %}}
+
         <small>like : {{ product.total_like }}</small>
         <a href="{% url 'home:product_like' product.id %}"
            class="btn btn-info {% if is_unlike %} disabled {% endif %}">Like</a>

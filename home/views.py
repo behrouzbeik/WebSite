@@ -18,6 +18,7 @@ def all_product(request,slug=None,id=None):
 
 def product_detail(request , id):
     product = get_object_or_404(Product , id=id)
+    images = Images.objects.filter(product_id=id)
     similar = product.tags.similar_objects()[:2]
     comment_form = CommentForm()
     comment = Comment.objects.filter(product_id=id,is_reply=False)
@@ -39,11 +40,13 @@ def product_detail(request , id):
             variant = Variants.objects.filter(product_Variant_id = id)
             variants = Variants.objects.get(id = variant[0].id)
         context = {'product':product,'variant':variant,'variants':variants,
-                   'similar':similar,'is_like':is_like,'is_unlike':is_unlike,'comment_form':comment_form,'comment':comment,'reply_form':reply_form}
+                   'similar':similar,'is_like':is_like,'is_unlike':is_unlike,'comment_form':comment_form,'comment':comment,
+                   'reply_form':reply_form,'images':images}
         return render(request,'home/details.html',context)
     else:
         return render(request, 'home/details.html', {'product': product,'is_unlike':is_unlike,
-                                                     'similar':similar,'is_like':is_like,'comment_form':comment_form,'comment':comment,'reply_form':reply_form})
+                                                     'similar':similar,'is_like':is_like,'comment_form':comment_form,
+                                                     'comment':comment,'reply_form':reply_form,'images':images})
 
 
 
