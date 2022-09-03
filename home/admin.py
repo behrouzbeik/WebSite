@@ -5,6 +5,11 @@ class ProductVariantsinLines(admin.TabularInline):
     model = Variants
     extra = 2
 
+
+class ImageInlines(admin.TabularInline):
+    model = Images
+    extra = 2
+
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('name','create','update')
     prepopulated_fields = {
@@ -13,7 +18,7 @@ class CategoryAdmin(admin.ModelAdmin):
 
 class ProductAdmin(admin.ModelAdmin):
     list_display = ['name','create','update' , 'amount' , 'available' , 'unit_price' , 'discount' , 'total_price']
-    inlines = [ProductVariantsinLines]
+    inlines = [ProductVariantsinLines,ImageInlines]
     list_editable = ('amount',)
 
 class CommentAdmin(admin.ModelAdmin):
@@ -27,3 +32,4 @@ admin.site.register(Size)
 admin.site.register(Color)
 admin.site.register(Variants)
 admin.site.register(Comment,CommentAdmin)
+admin.site.register(Images)

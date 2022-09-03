@@ -129,7 +129,10 @@ class ReplyForm(ModelForm):
         fields = ['comment']
 
 
-
+class Images(models.Model):
+    Product = models.ForeignKey(Product,on_delete=models.CASCADE)
+    name = models.CharField(max_length=50,blank=True)
+    Image = models.ImageField(upload_to='images/',blank=True)
 
 
 
